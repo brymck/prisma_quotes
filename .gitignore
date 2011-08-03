@@ -1,0 +1,6 @@
+.git
+.hg
+.settings
+.hgignore
+.project
+*.bat
