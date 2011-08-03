@@ -1,0 +1,108 @@
+div#chromequotes {
+  padding-right: 18px;
+}
+div#chromequotes h1 {
+	margin-bottom: 0 !important;
+}
+div#chromequotes div#options {
+	margin-bottom: 0.5em !important;
+}
+html > body > div#chromequotes a {
+	color: blue !important;
+	cursor: pointer !important;
+}
+div#chromequotes div#options a {
+	color: #666 !important;
+}
+html > body > div#chromequotes h2 {
+	color: #336699;
+	font-size: 17px !important;
+	font-weight: normal !important;
+	margin: 0 !important;
+	height: 20px !important;
+}
+div#chromequotes table {
+	border-collapse: collapse !important;
+	margin-bottom: 0.5em;
+}
+div#chromequotes thead tr {
+	border-bottom: 1px solid #8ebae5 !important;
+}
+div#chromequotes thead td {
+	text-align: right !important;
+}
+div#chromequotes thead td.text {
+	text-align: left !important;
+}
+div#chromequotes tfoot td {
+	font-weight: bold; !important;
+}
+div#chromequotes tbody tr {
+  border-bottom: 1px solid #ddeaf7 !important;
+  cursor: pointer !important;
+}
+div#chromequotes tbody tr:nth-child(odd) {
+  background-color: #eef5fb !important;
+}
+div#chromequotes tbody tr:hover {
+	background-color: #cbe0f3 !important;
+}
+div#chromequotes td {
+	border: none !important;
+	min-width: 50px !important;
+}
+div#chromequotes td.text {
+	text-align: left !important;
+}
+div#chromequotes td.value,
+div#chromequotes td.change,
+div#chromequotes td.pct {
+	text-align: right !important;
+}
+div#chromequotes td.positive {
+	color: green !important;
+}
+div#chromequotes td.negative {
+	color: red !important;
+}
+div#chromequotes td.up, div#chromequotes td.down {
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-iteration-count: 1;
+}
+div#chromequotes tr:nth-child(odd) td.up {
+  -webkit-animation-name: flashGreenOdd;
+}
+div#chromequotes tr:nth-child(even) td.up {
+  -webkit-animation-name: flashGreenEven;
+}
+div#chromequotes tr:nth-child(odd) td.down {
+  -webkit-animation-name: flashRedOdd;
+}
+div#chromequotes tr:nth-child(even) td.down {
+  -webkit-animation-name: flashRedEven;
+}
+
+/* Glow animation */
+@-webkit-keyframes flashGreenOdd {
+  from { background-color: lightgreen; }
+  to {   background-color: #eef5fb; }
+}
+@-webkit-keyframes flashGreenEven {
+  from { background-color: lightgreen; }
+  to {   background-color: #fff; }
+}
+@-webkit-keyframes flashRedOdd {
+  from { background-color: pink; }
+  to {   background-color: #eef5fb; }
+}
+@-webkit-keyframes flashRedEven {
+  from { background-color: pink; }
+  to {   background-color: #fff; }
+}
+
+div#chromequotes td.image {
+	padding: 1px 0 0 0 !important;
+}
+div#chromequotes td.image img {
+	cursor: pointer !important;
+}

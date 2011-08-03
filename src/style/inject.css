@@ -1,0 +1,60 @@
+/*
+ * The goal here is to nullify as much undesirable inheritance as possible.
+ * It's a little overboard with !important everywhere and very specific
+ * selectors, but I really don't want to ever deal with compatibility issues
+ */
+html > body > div#chromequotes * {
+	background-color: transparent !important;
+	background-image: none !important;
+	border: none !important;
+	color: #000 !important;
+	font-family: verdana, arial, 'meiryo ui', meiryo, メイリオ, sans-serif !important;
+	font-size: 11px !important;
+	height: * !important;
+	line-height: normal !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	text-align: left !important;
+	width: * !important;
+	-webkit-box-shadow: none;
+}
+html > body > div#chromequotes {
+	background-color: #fff !important;
+  border-bottom: solid 1px #8ebae5 !important;
+  border-left: solid 1px #bad5ef !important;
+	border-bottom-left-radius: 8px;
+	height: auto !important;
+	position: fixed !important;
+	padding: 2px 8px 4px 8px !important;
+	top: 0 !important;
+	right: 0 !important;
+	width: auto !important;
+	z-index: 1000000000000 !important; /* ohhhhh yeahhh */
+	-webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2) !important;
+}
+html > body > div#chromequotes #cqControls {
+	float: right !important;
+}
+html > body > div#chromequotes #cqControls a {
+	color: blue !important;
+	cursor: pointer !important;
+	font-size: larger;
+	margin: 4px !important;
+	padding: 4px !important;
+	text-decoration: none !important;
+}
+html > body > div#chromequotes #cqControls a:hover {
+	text-decoration: underline !important;
+}
+html > body > div#chromequotes div#cqChart {
+	margin-top: 1em !important;
+}
+html > body > div#chromequotes div#cqChart #cqChartLinks {
+	display: block !important;
+}
+html > body > div#chromequotes div#cqChart #cqChartLinks a {
+	cursor: pointer !important;
+}
+html > body > div#chromequotes div#cqChart #cqChartLinks .cqPipe {
+	padding: 0 4px !important;
+}

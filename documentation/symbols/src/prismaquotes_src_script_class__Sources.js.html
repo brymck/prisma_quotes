@@ -1,0 +1,229 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// Copyright 2011 Bryan McKelvey, MIT License</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * @fileoverview
+<span class='line'>  5</span>  * @author bryan.mckelvey@gmail.com (McKelvey Bryan)
+<span class='line'>  6</span>  */</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">/**
+<span class='line'>  9</span>  * This is the Sources singleton, used for storing information related to quote
+<span class='line'> 10</span>  * information sources such as Bloomberg, Google and Yahoo!
+<span class='line'> 11</span>  * @constructor
+<span class='line'> 12</span>  */</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Sources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 15</span> 	 * A list of the sources currently available
+<span class='line'> 16</span> 	 * @type Object.&lt;string, Object>
+<span class='line'> 17</span> 	 */</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">	
+<span class='line'> 20</span> 	</span><span class="COMM">/**
+<span class='line'> 21</span> 	 * The context node in which to create a list of dropdowns
+<span class='line'> 22</span> 	 * @type Node
+<span class='line'> 23</span> 	 */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">div</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	
+<span class='line'> 26</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 28</span> 		 * Adds the information pertaining to a source
+<span class='line'> 29</span> 		 * @param {string} key The key for the source
+<span class='line'> 30</span> 		 * @param {string} url The URL containing quote information (less any
+<span class='line'> 31</span> 		 * ticker symbol)
+<span class='line'> 32</span> 		 * @param {string} src The source for the chart
+<span class='line'> 33</span> 		 * @param {string} flashVars Any flashvars necessary to pass to the embed
+<span class='line'> 34</span> 		 * code
+<span class='line'> 35</span> 		 * @param {number} width The width of the chart
+<span class='line'> 36</span> 		 * @param {number} height The height of the chart
+<span class='line'> 37</span> 		 * @param {number} opacity The opacity of the chart's background (either
+<span class='line'> 38</span> 		 * "transparent" or "opaque")
+<span class='line'> 39</span> 		 * @param {RegExp} reTitle The regular expression for determining the title
+<span class='line'> 40</span> 		 * of the security
+<span class='line'> 41</span> 		 * @param {RegExp} reValue The regular expression for determining the value
+<span class='line'> 42</span> 		 * of the security
+<span class='line'> 43</span> 		 * @param {RegExp} reChange The regular expression for determining the
+<span class='line'> 44</span> 		 * change in the value of the security
+<span class='line'> 45</span> 		 * @param {boolean} plainOn Whether to show static charts in place of
+<span class='line'> 46</span> 		 * interactive ones
+<span class='line'> 47</span> 		 * @param {string} plainURL URL for a static chart
+<span class='line'> 48</span> 		 * @param {number} plainWidth The width of the static chart
+<span class='line'> 49</span> 		 * @param {number} plainHeight The height of the static chart
+<span class='line'> 50</span> 		 * @return The current object
+<span class='line'> 51</span> 		 * @type Sources
+<span class='line'> 52</span> 		 */</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">		</span><span class="NAME">add</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">abbr</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">src</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">flashVars</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opacity</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		              </span><span class="NAME">reTitle</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">reValue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">reChange</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">reOthers</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">									</span><span class="NAME">plainOn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">plainURL</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">plainWidth</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">plainHeight</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		  </span><span class="NAME">sources</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		    </span><span class="STRN">"url"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">		    </span><span class="NAME">embed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">		      </span><span class="STRN">"src"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">src</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">		      </span><span class="STRN">"flashVars"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">flashVars</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">		      </span><span class="STRN">"width"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">		      </span><span class="STRN">"height"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">		      </span><span class="STRN">"opacity"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">opacity</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">		    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		    </span><span class="NAME">regex</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		      </span><span class="NAME">title</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">reTitle</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		      </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">reValue</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">		      </span><span class="NAME">change</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">reChange</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">					</span><span class="NAME">others</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">reOthers</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">		    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">				</span><span class="NAME">plain</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">					</span><span class="NAME">on</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">plainOn</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">					</span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">plainURL</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">					</span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">plainWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">					</span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">plainHeight</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">				</span><span class="NAME">abbr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">abbr</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">		  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">		
+<span class='line'> 82</span> 		</span><span class="COMM">/**
+<span class='line'> 83</span> 		 * Exports the information in the Sources object in JSON format
+<span class='line'> 84</span> 		 * @return A JSON representation of sources
+<span class='line'> 85</span> 		 * @type object
+<span class='line'> 86</span> 		 */</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">		</span><span class="NAME">exportJSON</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">temp</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">			</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">sources</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">				</span><span class="NAME">temp</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">				</span><span class="NAME">temp</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value.url</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">				</span><span class="NAME">temp</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">embed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value.embed</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">				</span><span class="NAME">temp</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">plain</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value.plain</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">temp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		
+<span class='line'> 98</span> 		</span><span class="COMM">/**
+<span class='line'> 99</span> 		 * 
+<span class='line'>100</span> 		 * @param {string} label
+<span class='line'>101</span> 		 * @return The information on a source
+<span class='line'>102</span> 		 * @type object
+<span class='line'>103</span> 		 */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">		</span><span class="NAME">get</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">		  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">sources</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">		
+<span class='line'>108</span> 		</span><span class="COMM">/**
+<span class='line'>109</span> 		 * Creates an array containing which sources a metric is valid for,
+<span class='line'>110</span> 		 * returning all sources if the metric cannot be found
+<span class='line'>111</span> 		 * @return {string} An string of abbreviations for valid sources
+<span class='line'>112</span> 		 */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">		</span><span class="NAME">valid</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">metric</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">found</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">all</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">			</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">sources</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">source</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">				</span><span class="NAME">found</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">metric</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">source.regex.others</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">source.abbr</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">' '</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">				</span><span class="NAME">all</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">source.abbr</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> 
+<span class='line'>121</span> </span><span class="WHIT">			</span><span class="COMM">// Regular expression tests for whether the found string contains nothing</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">			</span><span class="COMM">// but whitespace</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="REGX">/^\s+$/</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">found</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">all</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">found</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">		
+<span class='line'>126</span> 		</span><span class="COMM">/**
+<span class='line'>127</span> 		 * Creates a group of radio buttons for selection
+<span class='line'>128</span> 		 * @param {string} name A unique name for the radio buttons
+<span class='line'>129</span> 		 * @param {string} currentSource The name of the current source for the
+<span class='line'>130</span> 		 * quote 
+<span class='line'>131</span> 		 * @return The context node
+<span class='line'>132</span> 		 * @type object
+<span class='line'>133</span> 		 */</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">		</span><span class="NAME">selection</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">currentSource</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$td</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;td>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">			</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">sources</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">				</span><span class="NAME">$td.append</span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;input>'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">val</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">					</span><span class="NAME">checked</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentSource</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">					</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">					</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">					</span><span class="NAME">title</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Localizer.translate</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">					</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'radio'</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$td</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="NAME">Sources.add</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">  </span><span class="STRN">"bloomberg"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'B'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"http://www.bloomberg.com/apps/quote?ticker="</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">  </span><span class="STRN">"http://www.bloomberg.com/flashsrv/chart.swf"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"ticker={secid}"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">  </span><span class="NUMB">637</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">570</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"transparent"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;title>(.*?)(?:(?:\s|\/){0,2}(?:Inc|The|Group|Corp|\&amp\; Co)*?)*?\s\(/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;span class="amount">([0-9,.]*?)&lt;/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;td class="name">Change&lt;\/td>\n&lt;td class="value.*?">(.*?)\s\(/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">		</span><span class="NAME">bid</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Bid&lt;\/td>\n&lt;td class="value">(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">		</span><span class="NAME">ask</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Ask&lt;\/td>\n&lt;td class="value">(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">		</span><span class="NAME">open</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Open&lt;\/td>\n&lt;td class="value">(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">		</span><span class="NAME">high</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/High&lt;\/td>\n&lt;td class="value">(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">		</span><span class="NAME">low</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Low&lt;\/td>\n&lt;td class="value">(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">		</span><span class="NAME">volume</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Volume&lt;\/td>\n&lt;td class="value">(.*?)&lt;\/td>/</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">	</span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">	</span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="NAME">Sources.add</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">  </span><span class="STRN">"google"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'G'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"http://www.google.com/finance?q="</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">  </span><span class="STRN">"http://www.google.com/finance/chart9.swf"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"q={secid}&lcId=1269509101766&single_viewpoints=name%3AMainViewPoint%2Cheight%3A202%2CtopMargin%3A0&single_layers=vp%3AMainViewPoint%2Cname%3ADateLinesLayer%2Carity%3AUnique%2CtickPosition%3A0%2Ctype%3Asimple%2ChasText%3Atrue%3A%3Avp%3AMainViewPoint%2Cname%3APriceLinesLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ALineChartLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3AAHLineChartLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ALastDayLineLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ABottomBarLayer%2Carity%3AUnique%2Ctype%3Asimple&compare_viewpoints=name%3AMainViewPoint%2Cheight%3A247%2CtopMargin%3A15&compare_layers=vp%3AMainViewPoint%2Cname%3APercentLinesLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ADateLinesLayer%2Carity%3AUnique%2Ctype%3Asimple%2CtickPosition%3A0%3A%3Avp%3AMainViewPoint%2Cname%3ABottomBarLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3APercentLineChartLayer%2Carity%3AMultiple%2Ctype%3Asimple&u=http://www.google.com/finance/getprices&fieldSeparator=%2C&objectSeparator=%3A%3A&sparklineType=dynamic&disableExternalInterface=true"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">  </span><span class="NUMB">440</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">300</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"transparent"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;title>(.*?)(?:\sInc\.)*?\:/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;span (?:id="ref_[0-9]*?_l"|class=bld)>([0-9,.]*?)(?:\s|&lt;)/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;span class="(?:chg?r?|ch chg bld)" id="?ref_[0-9]*?_c"?>\+?(\-?[0-9,.]*?)&lt;/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">		</span><span class="NAME">open</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Open&lt;\/span>\n&lt;span[^>]+>(.*?)&lt;\/span>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="NAME">high</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Range&lt;\/span>\n&lt;span[^>]+>.*?\s\-\s(.*?)&lt;\/span>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">		</span><span class="NAME">low</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Range&lt;\/span>\n&lt;span[^>]+>(.*?)\s\-\s.*?&lt;\/span>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">		</span><span class="NAME">volume</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Vol\s\/\sAvg\.&lt;\/span>.*?\n&lt;span[^>]+>(.*?)\//</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	</span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">	</span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="NAME">Sources.add</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">  </span><span class="STRN">"yahoo"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'Y'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"http://finance.yahoo.com/q?s="</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">  </span><span class="STRN">"http://us.js2.yimg.com/us.js.yimg.com/lib/fi/201008171841/us/swf/yfcv3/flashchart.swf"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">  </span><span class="STRN">"lcId=1284608380199&amp;localeUri=http%3A//us.js2.yimg.com/us.js.yimg.com/lib/fi/201008171841/us/locale/yfcv3/dictionary.xml&amp;chartHost=chartapi.finance.yahoo.com&amp;keyeventsHost=finance.yahoo.com&amp;sigdevsHost=ads.finance.yahoo.com&amp;buildType=prod&amp;state=symbol%3D{secid}%3Brange%3D1d%3Bindicator%3Dvolume%3Bcharttype%3Dline%3Bcrosshair%3Don%3Bohlcvalues%3D0%3Blogscale%3Don&amp;source=undefined"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">  </span><span class="NUMB">512</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">490</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"opaque"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">  </span><span class="REGX">/Summary\sfor\s(.*?)(?:(?:\s|,|\/){0,2}(?:Inc\.|The|Group|Corp|\&amp\; Co)*?)*?\-/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;span id="yfs_l10_.*?">(.*?)&lt;/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;span id="yfs_c10_.*?"[^>]+>.*?\n.*?\n.*?>(.*?)&lt;/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">		</span><span class="NAME">bid</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Bid:&lt;\/th>&lt;td class="yfnc_tabledata1">&lt;span[^>]+>(.*?)&lt;\/span>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">		</span><span class="NAME">ask</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Ask:&lt;\/th>&lt;td class="yfnc_tabledata1">&lt;span[^>]+>(.*?)&lt;\/span>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">		</span><span class="NAME">open</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Open:&lt;\/th>&lt;td class="yfnc_tabledata1">(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">		</span><span class="NAME">high</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Day's\sRange:&lt;\/th>&lt;td[^>]+>&lt;span>&lt;span[^>]+>.*?&lt;\/span>&lt;\/span>\s-\s&lt;span>&lt;span[^>]+>(.*?)&lt;\/span>&lt;\/span>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="NAME">low</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Day's\sRange:&lt;\/th>&lt;td[^>]+>&lt;span>&lt;span[^>]+>(.*?)&lt;\/span>&lt;\/span>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="NAME">volume</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/Volume:&lt;\/th>&lt;td class="yfnc_tabledata1">&lt;span[^>]+>(.*?)&lt;\/span>&lt;\/td>/</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">	</span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">	</span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="NAME">Sources.add</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">  </span><span class="STRN">"quote"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'Q'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"http://www.quote.com/us/stocks/quote.action?s="</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">  </span><span class="STRN">"http://www.quote.com/beta/index.swf"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">  </span><span class="STRN">"ServerURL=http%3A//www.quote.com/feed/jmaf%3F&Symbols=%24INDU&Aggregation=5D&ShowToolbar=true&ShowHeader=true&HeaderFg=000000&HeaderBg=FFFFFF&XAxisFg=00025E&YAxisFg=00025E&XAxisBg=&YAxisBg=&ShowSymbolField=true&ShowToolbarGoBtn=true&ShowToolbarAddBtn=true&ShowToolbarChartTypeBtn=true&ChartType=line&ShowToolbarChartCursorBtn=true&ShowToolbarAggregationBtn=true&ShowToolbarChartSettingsBtn=true&ShowToolbarStudiesBtn=true&ShowValueMarkers=true&SymChangeCallback=switchMenu"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">  </span><span class="NUMB">900</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">450</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"transparent"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">  </span><span class="REGX">/&lt;li class="title">(.*?)\s\(.*?\)&lt;/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">  </span><span class="REGX">/Last\:\s&lt;span class="majors">(.*?)&lt;/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">  </span><span class="REGX">/Chg\:\s&lt;span class=".*?">(.*?)&lt;/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">		</span><span class="NAME">bid</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/&lt;td>Bid[^&lt;]*?&lt;\/td>[^&lt;]+&lt;td[^>]+>(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="NAME">ask</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/&lt;td>Ask[^&lt;]*?&lt;\/td>[^&lt;]+&lt;td[^>]+>(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">		</span><span class="NAME">open</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/&lt;td>Open[^&lt;]*?&lt;\/td>.*?\n[^&lt;]+&lt;td[^>]+>(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">		</span><span class="NAME">high</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/&lt;td>Today's\sHigh[^&lt;]*?&lt;\/td>[^&lt;]+&lt;td[^>]+>(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">		</span><span class="NAME">low</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/&lt;td>Today's\sLow[^&lt;]*?&lt;\/td>[^&lt;]+&lt;td[^>]+>(.*?)&lt;\/td>/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="NAME">volume</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/&lt;td>Volume[^&lt;]*?&lt;\/td>[^&lt;]+&lt;td[^>]+>(.*?)&lt;\/td>/</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">	</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">	</span><span class="STRN">"http://charts.quote.com/cis/qcspon?cont={secid}&period=V&varminutes=15&size=575x300&bartype=BAR&bardensity=LOW&showvaluemarkers=false&showextendednames=true&showdatainheader=false"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">	</span><span class="NUMB">575</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">300</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

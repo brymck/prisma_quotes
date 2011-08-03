@@ -1,0 +1,26 @@
+{
+  "name": "__MSG_extName__",
+  "version": "2.1.5",
+  "default_locale": "en",
+  "description": "__MSG_extDescription__",
+  "icons": {
+    "16": "/image/icon_16.png",
+    "32": "/image/icon_32.png",
+    "48": "/image/icon_48.png",
+    "128": "/image/icon_128.png"
+  },
+  "browser_action": {
+    "default_icon": "/image/icon_19.png",
+    "popup": "/popup.html"
+  },
+  "background_page": "/background.html",
+  "options_page": "/options.html",
+  "permissions": [
+    "bookmarks",
+    "cookies",
+    "notifications",
+		"tabs",
+		"http://*/*",
+		"https://*/*"
+  ]
+}

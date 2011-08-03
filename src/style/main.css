@@ -1,0 +1,59 @@
+body, button, input, select {
+  font-family: verdana, arial, "meiryo ui", meiryo, メイリオ, sans-serif;
+  font-size: 11px;
+}
+a, a:visited {
+  color: blue;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+h2 {
+  font-weight: normal;
+  margin: 0;
+}
+table { border-collapse: collapse; }
+thead th {
+  border-bottom: 1px solid #ccc;
+  font-weight: normal;
+}
+td {
+  padding: 2px 4px 0 0;
+  vertical-align: top;
+  white-space: nowrap;
+}
+input[type=text], input[type=number] {
+  background-color: #faffbd;
+  border: 1px solid #fff;
+  margin: 0px;
+  vertical-align: top;
+}
+
+/* Stylized input elements */
+.button {
+  background: url("/image/button.png") 0px 24px;
+  border-bottom: solid 1px #8ebae5;
+  border-left: solid 1px #bad5ef;
+  border-top: solid 1px #bad5ef;
+  border-right: solid 1px #8ebae5;
+  display: inline-block;
+  display: -moz-inline-block;
+  height: <?=$verybig?>;
+}
+.button input {
+  background: none;
+  background-position: 4px 4px;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  height: 24px;
+  margin: 0px;
+  padding: 0px 6px 0px 24px;
+  outline: none;
+  vertical-align: top;
+}
+.button:active { background-position: 0px 0px; }
+.buttongroup { padding-left: 0px; }
+.buttongroup input[type=button], .buttongroup > .button { border-right: none; }
+.buttongroup > .button { border-left: solid 1px #8ebae5; }
+.buttongroup > .button:last-child { border-right: solid 1px #8ebae5; }
+.buttongroup > .button:first-child { border-left: solid 1px #bad5ef; }

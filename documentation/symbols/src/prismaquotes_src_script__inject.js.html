@@ -1,0 +1,163 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// Copyright 2011 Bryan McKelvey, MIT License</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * @fileoverview Stuff for the injection script
+<span class='line'>  5</span>  * @author bryan.mckelvey@gmail.com (McKelvey Bryan)
+<span class='line'>  6</span>  */</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">/**
+<span class='line'>  9</span>  * The main object for controlling an injected content script
+<span class='line'> 10</span>  * @constructor
+<span class='line'> 11</span>  */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Inject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 14</span> 	 * The main object, a jQuery-wrapped div element
+<span class='line'> 15</span> 	 * @type Object
+<span class='line'> 16</span> 	 */</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$node</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">	
+<span class='line'> 19</span> 	</span><span class="COMM">/**
+<span class='line'> 20</span> 	 * The jQuery-wrapped node containing the minimize/restore control
+<span class='line'> 21</span> 	 * @type Object
+<span class='line'> 22</span> 	 */</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$controls</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	
+<span class='line'> 25</span> 	</span><span class="COMM">/**
+<span class='line'> 26</span> 	 * The jQuery-wrapped node containing quote information
+<span class='line'> 27</span> 	 * @type Object
+<span class='line'> 28</span> 	 */</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$container</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	
+<span class='line'> 31</span> 	</span><span class="COMM">/**
+<span class='line'> 32</span> 	 * Make sure there's no animation or delay when resizing the embedded quote
+<span class='line'> 33</span> 	 * information
+<span class='line'> 34</span> 	 * @const
+<span class='line'> 35</span> 	 * @type number
+<span class='line'> 36</span> 	 */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">RESIZE_NO_DELAY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	
+<span class='line'> 39</span> 	</span><span class="COMM">/**
+<span class='line'> 40</span> 	 * Whether the quote information is visible
+<span class='line'> 41</span> 	 * @type {boolean}
+<span class='line'> 42</span> 	 */</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">visible</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">	
+<span class='line'> 45</span> 	</span><span class="COMM">/**
+<span class='line'> 46</span> 	 * Pointer for referencing the timeout interval if we need to clear it on
+<span class='line'> 47</span> 	 * kill processes
+<span class='line'> 48</span> 	 * @type {number}
+<span class='line'> 49</span> 	 * @see Inject#kill
+<span class='line'> 50</span> 	 */</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	
+<span class='line'> 53</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 55</span> 		 * Toggles the visibility of quote information
+<span class='line'> 56</span> 		 * @param {boolean=} visible Whether the object will be visible, and if
+<span class='line'> 57</span> 		 * left undefined will simply switch states 
+<span class='line'> 58</span> 		 * @return The current object
+<span class='line'> 59</span> 		 * @type Inject
+<span class='line'> 60</span> 		 */</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">		</span><span class="NAME">toggle</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">show</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">show</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">				</span><span class="NAME">$container.toggle</span><span class="PUNC">(</span><span class="NAME">RESIZE_NO_DELAY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">					</span><span class="NAME">visible</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">is</span><span class="PUNC">(</span><span class="STRN">':visible'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">					</span><span class="NAME">chrome.extension.sendRequest</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">						</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'setToggle'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">						</span><span class="NAME">toggle</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">visible</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">				</span><span class="NAME">visible</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">show</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">				</span><span class="NAME">$container.toggle</span><span class="PUNC">(</span><span class="NAME">visible</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">visible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">				</span><span class="NAME">Display.table.align</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">			</span><span class="NAME">$controls.children</span><span class="PUNC">(</span><span class="STRN">'a'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">text</span><span class="PUNC">(</span><span class="NAME">visible</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">'HIDE'</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'SHOW'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">		
+<span class='line'> 81</span> 		</span><span class="COMM">/**
+<span class='line'> 82</span> 		 * Kills the injection script processes
+<span class='line'> 83</span> 		 * @return The current object
+<span class='line'> 84</span> 		 * @type Inject
+<span class='line'> 85</span> 		 */</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">		</span><span class="NAME">kill</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">			</span><span class="NAME">clearInterval</span><span class="PUNC">(</span><span class="NAME">interval</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">			</span><span class="NAME">$node.remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">		
+<span class='line'> 92</span> 		</span><span class="COMM">/**
+<span class='line'> 93</span> 		 * Initializes all injected script files
+<span class='line'> 94</span> 		 * @return The current object
+<span class='line'> 95</span> 		 * @type Inject
+<span class='line'> 96</span> 		 */</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="NAME">load</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">visible</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">			</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'.cqInject'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parentScope</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$chart</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;div>'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'id'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'cqChart'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$table</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;div>'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'id'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'cqTable'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">			</span><span class="NAME">$container</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;div>'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'id'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'cqContainer'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">$table</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">$chart</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toggle</span><span class="PUNC">(</span><span class="NAME">visible</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">			</span><span class="NAME">$controls</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;div>'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'id'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'cqControls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;a>'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">click</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">Inject.toggle</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">text</span><span class="PUNC">(</span><span class="NAME">visible</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">'HIDE'</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'SHOW'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">			</span><span class="NAME">$node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;div>'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">'cqInject'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'id'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'chromequotes'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">$controls</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">$container</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">css</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">top</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">scrollTop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">appendTo</span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'body'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">			
+<span class='line'>109</span> 			</span><span class="NAME">chrome.extension.sendRequest</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'exportAll'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">				</span><span class="COMM">// Can't send functions through message passing, so need to get</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">				</span><span class="COMM">// functions directly from Metrics object</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">				</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">response.metrics</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">metric</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">					</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">Metrics.get</span><span class="PUNC">(</span><span class="NAME">metric.name</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">						</span><span class="NAME">response.metrics</span><span class="PUNC">[</span><span class="NAME">index</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">				
+<span class='line'>118</span> 				</span><span class="COMM">// Load into Display then draw table</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">				</span><span class="NAME">Display.load</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">assign</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">					</span><span class="NAME">chart</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$chart</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">					</span><span class="NAME">table</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$table</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">table.draw</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">				
+<span class='line'>124</span> 				</span><span class="NAME">chrome.extension.sendRequest</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'settings'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'frequency'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">settings</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">					</span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setInterval</span><span class="PUNC">(</span><span class="NAME">parentScope.update</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">settings.frequency</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		
+<span class='line'>131</span> 		</span><span class="COMM">/**
+<span class='line'>132</span> 		 * Updates the quote information
+<span class='line'>133</span> 		 * @return {Inject} The current object
+<span class='line'>134</span> 		 */</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">		</span><span class="NAME">update</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">			</span><span class="COMM">// Kill if the main node doesn't exist any more</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$node.size</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">				</span><span class="NAME">Inject.kill</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">			</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">visible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">					</span><span class="NAME">chrome.extension.sendRequest</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">						</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'exportQuotes'</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">						</span><span class="NAME">Display.table.update</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="NAME">chrome.extension.sendRequest</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'getToggle'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">response</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="NAME">Inject.load</span><span class="PUNC">(</span><span class="NAME">response.toggle</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"> 
+		<title data-i18n_title="extName"></title>
+		<link rel="stylesheet" type="text/css" href="style/main.css">
+		<link rel="stylesheet" type="text/css" href="style/options.css">
+	</head>
+	<body>
+		<header>
+			<h1><span data-i18n="extName"></span><img src="/image/icon_white_48.png" height="48" width="48"></h1>
+		</header>
+		<div id="container">
+			<h2 data-i18n="instructions"></h2>
+			<ol>
+				<li><span data-i18n="instructions1_1"></span><img src="/image/delete.png"><span data-i18n="instructions1_2"></span></li>
+				<li data-i18n="instructions2"></li>
+				<li><span data-i18n="instructions3_1"></span><input type="checkbox" disabled><span data-i18n="instructions3_2"></span></li>
+				<li data-i18n="instructions4"></li>
+			</ol>
+			<p><span data-i18n="lookupResources"></span><a href="http://www.bloomberg.com/apps/data?pid=symsearch" target="_blank" data-i18n="bloomberg"></a>, <a href="http://www.google.com/finance?q=" target="_blank" data-i18n="google"></a>, <a href="http://finance.yahoo.com/q?s=" target="_blank" data-i18n="yahoo"></a></p>
+			<h2 data-i18n="edit"></h2>
+			<div id="portfolioEdit"></div>
+			<h2 data-i18n="columns"></h2>
+			<div id="metricsEdit"></div>
+			<h2 data-i18n="others"></h2>
+			<div id="othersEdit">
+				<ul>
+					<li>
+						<label for="frequency" data-i18n="frequency"></label>
+						<select id="frequency" onchange="javascript:Options.networkUsage();">
+							<option value="5000" data-i18n="every5sec"></option>
+							<option value="15000" selected data-i18n="every15sec"></option>
+							<option value="30000" data-i18n="every30sec"></option>
+							<option value="60000" data-i18n="every1min"></option>
+							<option value="300000" data-i18n="every5min"></option>
+							<option value="900000" data-i18n="every15min"></option>
+							<option value="1800000" data-i18n="every30min"></option>
+							<option value="3600000" data-i18n="every1hr"></option>
+						</select>
+					</li>
+					<li>
+						<label for="language" data-i18n="language"></label>
+						<select id="language">
+							<option value="default" selected data-i18n="browserDefault"></option>
+							<option value="en">English</option>
+							<option value="ja">日本語</option>
+						</select>
+					</li>
+					<li>
+						<label for="behaviorPopup" data-i18n="behaviorPopup"></label>
+						<select id="behaviorPopup">
+							<option value="viewChart" data-i18n="viewChart"></option>
+							<option value="goToPage" data-i18n="goToPage"></option>
+						</select>
+					</li>
+					<li>
+						<label for="behaviorInject" data-i18n="behaviorInject"></label>
+						<select id="behaviorInject">
+							<option value="viewChart" data-i18n="viewChart"></option>
+							<option value="goToPage" data-i18n="goToPage"></option>
+						</select>
+					</li>
+					<li>
+						<input type="checkbox" id="sync">
+						<label for="sync">
+							<span data-i18n="syncLabel1"></span>
+							<img src="/image/wrench.png" style="margin-bottom: -4px"><span data-i18n="syncLabel2"></span>
+						</label>					
+					</li>
+					<li>
+						<input type="checkbox" id="inject">
+						<label for="inject" data-i18n="insertIntoPages"></label>
+					</li>
+				</ul>
+			</div>
+			<div id="networkUsage">
+				<h2 data-i18n="networkUsage"></h2>
+				<p data-i18n="netInstructions"></p>
+				<table>
+					<thead>
+						<tr>
+							<td colspan="3"></td>
+							<th colspan="3" data-i18n="allQuotes"></th>
+						</tr>
+						<tr>
+							<th data-i18n="source"></th>
+							<th data-i18n="count"></th>
+							<th data-i18n="perQuote"></th>
+							<th data-i18n="perHour"></th>
+							<th data-i18n="perDay"></th>
+							<th data-i18n="perMonth"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td data-i18n="bloomberg"></td><td></td><td>5 KB</td><td></td><td></td><td></td></tr>
+						<tr><td data-i18n="google"></td><td></td><td>95 KB</td><td></td><td></td><td></td></tr>
+						<tr><td data-i18n="yahoo"></td><td></td><td>70 KB</td><td></td><td></td><td></td></tr>
+						<tr><td data-i18n="quote"></td><td></td><td>40 KB</td><td></td><td></td><td></td></tr>
+					</tbody>
+					<tfoot>
+						<tr><td>Total</td><td></td><td>―</td><td></td><td></td><td></td></tr>
+					</tfoot>
+				</table>
+			</div>
+			<button id="saveButton" onclick="javascript:Options.save();">
+			<img src="/image/disk.png"><span data-i18n="save"></span>
+			</button><button id="undoButton" onclick="javascript:Options.undo();">
+			<img src="/image/arrow_undo.png"><span data-i18n="undo"></span>
+			</button><button id="resetButton" onclick="javascript:Options.resetSecs();">
+			<img src="/image/lightning.png"><span data-i18n="reset"></span>				
+			</button><button id="clearButton" onclick="javascript:Options.clearAll();">
+			<img src="/image/delete.png"><span data-i18n="clear"></span>					
+			</button><button id="errorButton" onclick="javascript:Options.reportError();">
+			<img src="/image/error.png"><span data-i18n="reportError"></span>					
+			</button>
+		</div>
+		<footer>
+			<p>Copyright 2011 <a href="mailto:bryan.mckelvey@gmail.com">Bryan McKelvey</a>, <a href="/license.txt">MIT License</a></p>
+		</footer>
+		<script type="text/javascript" src="script/jquery-1.5.min.js"></script>
+		<script type="text/javascript" src="script/class/tablednd.js"></script>
+		<script type="text/javascript" src="script/options.js"></script>
+	</body>
+</html>

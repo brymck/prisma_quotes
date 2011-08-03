@@ -1,0 +1,216 @@
+body, button, input, select {
+  font-size: 13px;
+}
+body {
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		right top,
+		color-stop(0.25, #fafcff),
+		color-stop(0.5, #f4f7ff));
+  background-repeat: repeat-y;
+  margin: 0;
+}
+
+/* Header */
+header {
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		right top,
+		color-stop(0.125, #d96666),
+		color-stop(0.375, #e0c240),
+		color-stop(0.625, #4cb052),
+		color-stop(0.875, #668cd9));
+  padding: 4px;
+}
+header h1 {
+	border: none;
+	color: #fff;
+	font-family: georgia, "kozuka mincho pro", "ms hoso mincho", "serif";
+	font-size: 3em;
+	font-weight: bold;
+	margin: 0;
+	text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+header img {
+	float: right;
+}
+
+/* Container */
+div#container {
+  background-color: #fff;
+  border: 1px solid #8ebae5;
+  margin: 4px;
+  padding: 1em 1.5em;
+}
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+td.index {
+  padding: 2px 2px -2px 2px;
+  text-align: right;
+}
+td {
+	margin: 0;
+	padding: 1px 4px 0 0;
+}
+td input {
+	margin: 2px 2px 0 1px;
+}
+div.sources a, span#defaultSource a {
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  height: 16px;
+  margin: 2px 2px -2px 2px;
+  width: 16px;
+}
+#portfolioEdit tbody tr:hover td {
+	background-color: #bad5ef;
+}
+input[type=number] {
+  text-align: right;
+  width: 6em;
+}
+h2:nth-child(n+2) {
+  margin-top: 0.5em;
+}
+.value {
+  max-width: 6em;
+  text-align: right;
+}
+
+/* Evenly spaces labels when they occur first in a list */
+#othersEdit ul label:first-child {
+	display: block;
+}
+#othersEdit ul select {
+	margin-bottom: 0.5em;
+}
+
+
+/*
+ * Source radio buttons
+ * Note that this is incompatible with non-WebKit-based browsers and needs to
+ * be tested on different Chrome versions
+ * Fingers crossed
+ */
+tbody input[type=radio] {
+	background-repeat: no-repeat;
+	cursor: pointer;
+	height: 16px;
+	width: 16px;
+	-webkit-appearance: none;
+}
+tbody input[type=radio][value=bloomberg]:checked,
+tbody input[type=radio][value=bloomberg]:hover {
+	background-image: url("/image/bloomberg.png");	
+}
+tbody input[type=radio][value=bloomberg] {
+	background-image: url("/image/bloomberg_off.png");	
+}
+tbody input[type=radio][value=google]:checked,
+tbody input[type=radio][value=google]:hover {
+	background-image: url("/image/google.png");	
+}
+tbody input[type=radio][value=google] {
+	background-image: url("/image/google_off.png");	
+}
+tbody input[type=radio][value=yahoo]:checked,
+tbody input[type=radio][value=yahoo]:hover {
+	background-image: url("/image/yahoo.png");	
+}
+tbody input[type=radio][value=yahoo] {
+	background-image: url("/image/yahoo_off.png");	
+}
+tbody input[type=radio][value=quote]:checked,
+tbody input[type=radio][value=quote]:hover {
+	background-image: url("/image/quote.png");	
+}
+tbody input[type=radio][value=quote] {
+	background-image: url("/image/quote_off.png");	
+}
+.tDnD_whileDrag {
+	background-color: #8ebae5;
+}
+
+/* Labels */
+#metricsEdit label, #portfolioEdit label {
+	color: #666;
+	visibility: hidden;
+}
+#metricsEdit input:hover + label, #portfolioEdit input:hover + label {
+	visibility: visible;
+}
+
+
+/* Save buttons */
+button {
+	background: -webkit-gradient(linear, left top, left bottom, from(#dfedfb), to(#cae2f9));
+  border-bottom: solid 1px #8ebae5;
+	border-left: solid 1px #bad5ef;
+	border-top: solid 1px #bad5ef;
+  border-right: solid 1px #8ebae5;
+	line-height: 24px;
+	margin: 0;
+}
+button + button {
+	border-left: none;
+}
+button:hover {
+  cursor: pointer;
+}
+button:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(#acd1f6), to(#c5dff9));
+}
+li img, button img {
+	margin: 0 3px -3px 0;
+}
+
+/* Network usage table */
+#networkUsage table {
+	margin-bottom: 1em;
+}
+#networkUsage tbody th {
+	font-weight: normal;
+	text-align: left;
+}
+#networkUsage tfoot {
+	border-bottom: 1px solid #999;
+	border-top: 1px solid #ccc;
+}
+#networkUsage tfoot td:nth-child(n+4) {
+	font-weight: bold;
+}
+#networkUsage td {
+	padding-left: 2em;
+	text-align: right;
+}
+#networkUsage td:first-child {
+	padding-left: 0;
+	text-align: left;
+}
+
+button.delete {
+	background: transparent url("/image/delete_off.png") 0 0 no-repeat;
+	border: none;
+	margin: 2px 0 0 0;
+	padding: 0;
+	height: 16px;
+	width: 16px;
+}
+button.delete:hover {
+	background-image: url("/image/delete.png");
+}
+
+#portfolioEdit div + div {
+	padding-top: 1.5em;
+}
+
+/* Footer */
+footer {
+	font-size: smaller;
+	text-align: center;
+}
