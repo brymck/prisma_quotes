@@ -69,6 +69,9 @@ Quote.prototype.get = function(metric) {
 Quote.prototype.loadTicker = function() {
   var regex = Sources.get(this.source).regex;
   var parentScope = this;
+  if (this.source == "bloomberg" && this.secid.indexOf(":") === -1) {
+    this.secid += ":US"
+  }
 
 	$.ajax({
 		type: 'get',

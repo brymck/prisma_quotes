@@ -47,15 +47,13 @@ var Settings = (function(){
 				{ secid: 'SPX:IND', source: 'bloomberg', count: 0, pricePaid: 0, decimals: 2, trigger: '' },
 				{ secid: 'EURUSD:IND', source: 'bloomberg', count: 0, pricePaid: 0, decimals: 2, trigger: '>=1.5'},
 				{ secid: 'US0003M:IND', source: 'bloomberg', count: 0, pricePaid: 0, decimals: 3, trigger: ''},
-				{ secid: 'USSWAP10:IND', source: 'bloomberg', count: 0, pricePaid: 0, decimals: 3,trigger: '<3,>5'},
-				{ secid: 'CGRC1E5:IND', source: 'bloomberg', count: 0, pricePaid: 0, decimals: 2,trigger: ''},
+				{ secid: 'USSWAP10:IND', source: 'bloomberg', count: 0, pricePaid: 0, decimals: 3,trigger: '<1,>5'},
 				{ secid: 'DXY:IND', source: 'bloomberg', count: 0, pricePaid: 0, decimals: 1, trigger: ''},
 				{ secid: 'GOOG', source: 'google', count: 5, pricePaid: 400, decimals: 2, trigger: ''},
 				{ secid: '.FTSE', source: 'google', count: 0, pricePaid: 0, decimals: 2, trigger: ''},
 				{ secid: 'YHOO', source: 'yahoo', count: 5, pricePaid: 30, decimals: 2, trigger: ''},
 				{ secid: '^VIX', source: 'yahoo', count: 0, pricePaid: 0, decimals: 2, trigger: ''},
-				{ secid: 'GCH11.CMX', source: 'yahoo', count: 0, pricePaid: 0, decimals: 2, trigger: ''},
-				{ secid: '$INDU', source: 'quote', count: 0, pricePaid: 0, decimals: 2, trigger: ''}
+				{ secid: 'GCH12.CMX', source: 'yahoo', count: 0, pricePaid: 0, decimals: 2, trigger: ''},
 			]},
 		sync: false,
 		version: getVersion()
