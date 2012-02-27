@@ -95,6 +95,10 @@ Quote.prototype.loadTicker = function() {
 				changeMatches[0].indexOf("price-change-down") !== -1) {
 					parentScope.change = -parseFloat(changeMatches[1].replace(/,/g, ''));
 				}
+				else if (parentScope.source == "bloomberg" &&
+				changeMatches[0].indexOf("down") !== -1) {
+					parentScope.change = -parseFloat(changeMatches[1].replace(/,/g, ''));
+				}
 				else {
 					parentScope.change = parseFloat(changeMatches[1].replace(/,/g, ''));
 				}

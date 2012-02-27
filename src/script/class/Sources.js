@@ -158,8 +158,8 @@ Sources.add(
                 bid: /Bid:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
                 ask: /Ask:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
                 open: /Open:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
-                high: /Day's Range:<\/th>\n\s*<td>[0-9.,NA-]{1,} - ([0-9.,NA-]{1,})/,
-                low: /Day's Range:<\/th>\n\s*<td>([0-9.,NA-]{1,})/,
+                high: /(?:Day(?:'s)? Range:<\/th>\n\s*<td[^>]*>[0-9.,NA-]{1,} - |High - Low:<\/th>\n\s*<td[^>]*>)([0-9.,NA-]{1,})/,
+                low: /(?:Day(?:'s)? Range:<\/th>\n\s*<td[^>]*>|High - Low:<\/th>\n\s*<td[^>]*>[0-9.,NA-]{1,} - )([0-9.,NA-]{1,})/,
                 volume: /Volume:<\/th>\n\s*<td class[^>]+>([0-9.,NA-]{1,})/
 	},
 	false,
