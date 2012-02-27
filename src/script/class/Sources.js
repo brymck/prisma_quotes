@@ -173,10 +173,10 @@ Sources.add(
   /<span (?:id="ref_[0-9]*?_l"|class=bld)>([0-9,.]+)/,
   /<span class="(?:chg?r?|ch chg bld)" id="?ref_[0-9]*?_c"?>\+?(\-?[0-9,.]*?)</,
 	{
-		open: /Open<\/span>\n<span[^>]+>(.*?)<\/span>/,
-		high: /Range<\/span>\n<span[^>]+>.*?\s\-\s(.*?)<\/span>/,
-		low: /Range<\/span>\n<span[^>]+>(.*?)\s\-\s.*?<\/span>/,
-		volume: /Vol\s\/\sAvg\.<\/span>.*?\n<span[^>]+>(.*?)\//
+		open: /Open\n<\/td>\n<td[^>]+>(.*)/,
+		high: /Range\n<\/td>\n<td[^>]+>.*? \- (.*)/,
+		low: /Range\n<\/td>\n<td[^>]+>(.*?) \- .*/,
+		volume: /Vol \/ Avg\.\n<\/td>\n<td[^>]+>(.*?)\//
 	},
 	false,
 	"", 0, 0
