@@ -188,7 +188,7 @@ Sources.add(
   512, 490, "opaque",
   /Summary\sfor\s(.*?)(?:(?:\s|,|\/){0,2}(?:Inc\.|The|Group|Corp|\&amp\; Co)*?)*?\-/,
   /<span id="yfs_l(?:10|84)_.*?">(.*?)</,
-  /yfs_c(?:6[34]|10)_[^>]+>(?:<img[^>]+>)\s*([0-9,.-])+/,
+  /yfs_c(?:6[034]|10)_[^>]+>(?:<img[^>]+>)\s*([0-9,.-]+)/,
 	{
 		bid: /Bid:<\/th><td class="yfnc_tabledata1"><span[^>]+>(.*?)<\/span>/,
 		ask: /Ask:<\/th><td class="yfnc_tabledata1"><span[^>]+>(.*?)<\/span>/,
