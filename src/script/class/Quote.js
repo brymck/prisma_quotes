@@ -91,7 +91,7 @@ Quote.prototype.loadTicker = function() {
 	
 			var changeMatches = regex.change.exec(vals);
 			if (changeMatches) {
-				if ((parentScope.source == "yahoo" || parentScope.source == "google") &&
+				if ((parentScope.source == "yahoo" || parentScope.source == "bloomberg") &&
 				(changeMatches[0].indexOf("down") !== -1)) {
 					parentScope.change = -parseFloat(changeMatches[1].replace(/,/g, ''));
 				}
