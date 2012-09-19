@@ -151,7 +151,7 @@ Sources.add(
   "bloomberg", 'B', "http://www.bloomberg.com/quote/",
   "http://www.bloomberg.com/flashsrv/chart.swf", "ticker={secid}",
   637, 570, "transparent",
-  /<title>.* - (.*?)(?:(?:\s|\/){0,2}(?:Inc|The|Group|Corp|\&amp\; Co)?) -/,
+  /<title>(?:.* - )?(.*?)(?:(?:\s|\/){0,2}(?:Inc|The|Group|Corp|\&amp\; Co)?) -/,
   /" price">\s*\n\s*([0-9,.-]+)/,
   /trending_[^>]+>([0-9NA.,-]+)/,
 	{
