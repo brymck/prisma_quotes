@@ -90,7 +90,7 @@ var Options = (function(){
 			if (answer) {
 				bg.Metrics.reset();
 				bg.Investor.reset();
-				window.location.reload();
+				setTimeout(function() { window.location.reload(); }, 100);
 			}
 			return this;
 		},
@@ -212,11 +212,11 @@ var Options = (function(){
 				bg.Localizer.load(function(){
 					alert(bg.Localizer.translate('saveAlert'));
 					bg.Background.reload();
-					window.location.reload();
+					setTimeout(function() { window.location.reload(); }, 100);
 				});
 			} 
 			catch (e) {
-				alert("Error saving!");
+				alert("Error saving!\n" + e.message);
 			}
 			return this;
 		},
@@ -248,6 +248,11 @@ var Options = (function(){
 					setTimeout(function(){tdnd.init(table);}, 100);
 				};
 			});			
+                        $('#saveButton').click(function() { Options.save(); });
+			$('#undoButton').click(function() { Options.undo(); });
+			$('#resetButton').click(function() { Options.resetSecs(); });
+			$('#clearButton').click(function() { Options.clearAll(); });
+			$('#errorButton').click(function() { Options.reportError(); });
 			
 			bg.Localizer.localize($(document));
 			this.networkUsage();
