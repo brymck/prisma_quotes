@@ -152,7 +152,7 @@ Sources.add(
   "http://www.bloomberg.com/flashsrv/chart.swf", "ticker={secid}",
   637, 570, "transparent",
   /<title>(?:.* - )?(.*?)(?:(?:\s|\/){0,2}(?:Inc|The|Group|Corp|\&amp\; Co)?) -/,
-  /" price">\s*\n\s*([0-9,.-]+)/,
+  / price">\s*\n\s*([0-9,.-]+)/,
   /trending_[^>]+>([0-9NA.,-]+)/,
 	{
                 bid: /Bid:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
