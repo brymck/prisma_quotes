@@ -81,7 +81,11 @@ Quote.prototype.loadTicker = function() {
 		success: function(vals){
 			var titleMatches = regex.title.exec(vals);
 			if (titleMatches) {
-				parentScope.title = titleMatches[1];
+        match = titleMatches[1];
+        if (match.length > 42) {
+          match = match.substring(0, 40) + "...";
+        }
+				parentScope.title = match;
 			}
 			
 			var valueMatches = regex.value.exec(vals);

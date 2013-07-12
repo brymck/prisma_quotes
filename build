@@ -6,4 +6,3 @@ Dir.chdir File.expand_path("src") do
   version = JSON.parse(File.read("manifest.json"))["version"]
   `zip -r ../prisma_quotes-#{version}.zip .`
 end
-

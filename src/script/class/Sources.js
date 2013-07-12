@@ -162,14 +162,14 @@ Sources.add(
                 low: /(?:Day(?:'s)? Range:<\/th>\n\s*<td[^>]*>|High - Low:<\/th>\n\s*<td[^>]*>[0-9.,NA-]{1,} - )([0-9.,NA-]{1,})/,
                 volume: /Volume:<\/th>\n\s*<td class[^>]+>([0-9.,NA-]{1,})/
 	},
-	false,
-	"", 0, 0
+	true,
+	"http://media.bloomberg.com/bb/chart?h=300&w=440&type=intraday&cfg=BQuoteComp_10.xml&ticks={secid}&img=png", 440, 300
 );
 Sources.add(
   "google", 'G', "http://www.google.com/finance?q=",
   "http://www.google.com/finance/chart9.swf", "q={secid}&lcId=1269509101766&single_viewpoints=name%3AMainViewPoint%2Cheight%3A202%2CtopMargin%3A0&single_layers=vp%3AMainViewPoint%2Cname%3ADateLinesLayer%2Carity%3AUnique%2CtickPosition%3A0%2Ctype%3Asimple%2ChasText%3Atrue%3A%3Avp%3AMainViewPoint%2Cname%3APriceLinesLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ALineChartLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3AAHLineChartLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ALastDayLineLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ABottomBarLayer%2Carity%3AUnique%2Ctype%3Asimple&compare_viewpoints=name%3AMainViewPoint%2Cheight%3A247%2CtopMargin%3A15&compare_layers=vp%3AMainViewPoint%2Cname%3APercentLinesLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3ADateLinesLayer%2Carity%3AUnique%2Ctype%3Asimple%2CtickPosition%3A0%3A%3Avp%3AMainViewPoint%2Cname%3ABottomBarLayer%2Carity%3AUnique%2Ctype%3Asimple%3A%3Avp%3AMainViewPoint%2Cname%3APercentLineChartLayer%2Carity%3AMultiple%2Ctype%3Asimple&u=http://www.google.com/finance/getprices&fieldSeparator=%2C&objectSeparator=%3A%3A&sparklineType=dynamic&disableExternalInterface=true",
   440, 300, "transparent",
-  /<title>(.*?)(?:\sInc\.)*?\:/,
+  /<title>(.*?)(?:\sInc\.)*?(?:\:|<\/title)/,
   /<span (?:id="ref_[0-9]*?_l"|class=bld)>([0-9,.]+)/,
   /<span class="(?:chg?r?|ch chg bld)" id="?ref_[0-9]*?_c"?>\+?(\-?[0-9,.]*?)</,
 	{
@@ -178,8 +178,8 @@ Sources.add(
 		low: /Range\n<\/td>\n<td[^>]+>(.*?) \- .*/,
 		volume: /Vol \/ Avg\.\n<\/td>\n<td[^>]+>(.*?)\//
 	},
-	false,
-	"", 0, 0
+	true,
+	"https://www.google.com/finance/chart?chs=m&cht=c&q={secid}&tlf=12", 300, 150
 );
 Sources.add(
   "yahoo", 'Y', "http://finance.yahoo.com/q?s=",
@@ -197,8 +197,8 @@ Sources.add(
 		low: /Day's\sRange:<\/th><td[^>]+><span><span[^>]+>(.*?)<\/span><\/span>/,
 		volume: /Volume:<\/th><td class="yfnc_tabledata1"><span[^>]+>(.*?)<\/span><\/td>/
 	},
-	false,
-	"", 0, 0
+	true,
+	"http://chart.finance.yahoo.com/z?s={secid}&t=1d&q=&l=&z=l&a=v&p=s", 800, 475
 );
 Sources.add(
   "quote", 'Q', "http://www.quote.com/us/stocks/quote.action?s=",
