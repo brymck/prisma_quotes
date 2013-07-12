@@ -10,8 +10,8 @@ Key features:
     Finance. All of these services have their strengths and weaknesses with
     market coverage, charting tools and personal portfolios, so why choose
     between them?
-  * Easy access to interactive charts - Just click the quote and it will
-    display the chart!
+  * Easy access to charts - Just click the quote and it will display the
+    chart!
   * Alert conditions - Set an alert condition (i.e. ">5" means "alert me when
     the price is greater than 5") and you'll be notified when a security's
     price meets that condition.
