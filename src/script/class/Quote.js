@@ -178,7 +178,7 @@ Quote.prototype.checkTrigger = function() {
       var limit = parseFloat(temp[i].replace(operator, ""));
       var pastLimit = false;
       var preposition = "";
-      
+
       switch (temp[i].substring(0, 1) + (temp[i].substring(1, 2) === "=" ? "=" : "")) {
         case ">":
           preposition = "above";
