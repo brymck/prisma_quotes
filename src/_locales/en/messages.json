@@ -1,6 +1,6 @@
 {
   "extName":         {"message": "Prisma Quotes"},
-  "extDescription":  {"message": "Get live quotes and charts for stocks and securities of your choice from Bloomberg, Google, Yahoo! and Quote.com at the click of a button!"},
+  "extDescription":  {"message": "Get live quotes and charts for stocks and securities of your choice from Bloomberg, Google and Yahoo! at the click of a button!"},
   "bloomberg":       {"message": "Bloomberg"},
   "google":          {"message": "Google Finance"},
   "yahoo":           {"message": "Yahoo! Finance"},

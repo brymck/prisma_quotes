@@ -1,6 +1,6 @@
 {
   "extName":         {"message": "プリズマ・クォート"},
-  "extDescription":  {"message": "Bloomberg、Google、Yahoo!、Quote.comからの証券価格を表示する"},
+  "extDescription":  {"message": "Bloomberg、Google、Yahoo!からの証券価格を表示する"},
   "bloomberg":       {"message": "Bloomberg"},
   "google":          {"message": "Google Finance"},
   "yahoo":           {"message": "Yahoo!ファイナンス"},
