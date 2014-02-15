@@ -152,8 +152,8 @@ Sources.add(
   "http://www.bloomberg.com/flashsrv/chart.swf", "ticker={secid}",
   637, 570, "transparent",
   /<title>(?:.* - )?(.*?)(?:(?:\s|\/){0,2}(?:Inc|The|Group|Corp|\&amp\; Co)?) -/,
-  /<span[^>]*price">\n?\s*([0-9,.-]+)/,
-  /trending_[^>]+>([0-9NA.,-]+)/,
+  /<meta itemprop="price" content="([0-9,.-]+)" \/>/,
+  /<meta itemprop="priceChange" content="([0-9,.-]+)" \/>/,
 	{
                 // bid: /Day's Range:<\/th>\n\s*<td[^>]*>([0-9.,NA-]{1,})/,
                 // ask: /Day's Range:<\/th>\n\s*<td[^>]*>[0-9.,NA-]{1,} - ([0-9.,NA-]{1,})/,
