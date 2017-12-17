@@ -1,3 +1,17 @@
+**_This package is no longer actively maintained._**
+
+I'm happy about all the positive feedback this has received over the years, but
+I no longer have the time to dedicate to this project. The last holdout to have
+not changed its web API, Google, finally changed its service in December 2017
+so that this extension no longer works. To be quite honest, I'm surprised it
+made it this far.
+
+This work is released under the MIT License, so please feel free to build off
+it... although honestly, the JavaScript world has moved on a great deal in the
+last five years, and this isn't the best thing I've ever written.
+
+---
+
 Prisma Quotes
 =============
 
